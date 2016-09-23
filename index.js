@@ -12,7 +12,7 @@ const movies = [
 		poster: 'http://i.imgur.com/yuYyCnF.jpg'
 	},
 ];
-const getId = str => parseInt(str, 1) - 1;
+const getId = str => parseInt(str, 10) - 1;
 const unauthorized = res => {
 	res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
 	return res.sendStatus(401);
