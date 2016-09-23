@@ -1,0 +1,26 @@
+{
+  "name": "toolbeam-example-api",
+  "version": "1.0.0",
+  "description": "A simple API for the Toolbeam examples",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnomalyInnovations/toolbeam-example-api.git"
+  },
+  "author": "Anomaly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AnomalyInnovations/toolbeam-example-api/issues"
+  },
+  "homepage": "https://github.com/AnomalyInnovations/toolbeam-example-api#readme",
+  "dependencies": {
+    "basic-auth": "^1.0.4",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "multer": "^1.2.0",
+    "request": "^2.75.0"
+  }
+}
