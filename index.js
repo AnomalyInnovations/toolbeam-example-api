@@ -7,12 +7,67 @@ const upload = require('multer')();
 const movies = [
 	{
 		name: 'Casablanca',
-		year: "1942",
-		genre: 'Drama',
-		poster: 'http://i.imgur.com/yuYyCnF.jpg'
+		year: '1942',
+		genre: 'Romance',
+		poster: 'http://i.imgur.com/AOgA2cn.jpg'
+	},
+	{
+		name: 'Gone with the Wind',
+		year: '1939',
+		genre: 'Romance',
+		poster: 'http://i.imgur.com/5sG2K4D.jpg'
+	},
+	{
+		name: 'Citizen Kane',
+		year: '1941',
+		genre: 'Mystery',
+		poster: 'http://i.imgur.com/HqzBOO7.jpg'
+	},
+	{
+		name: 'The Wizard of Oz',
+		year: '1939',
+		genre: 'Fantasy',
+		poster: 'http://i.imgur.com/tWxYoJm.jpg'
+	},
+	{
+		name: 'North by Northwest',
+		year: '1959',
+		genre: 'Thriller',
+		poster: 'http://i.imgur.com/y0CONU5.jpg'
+	},
+	{
+		name: "It's a Wonderful Life",
+		year: '1946',
+		genre: 'Fantasy',
+		poster: 'http://i.imgur.com/7bh1eVk.jpg'
+	},
+	{
+		name: 'Some Like It Hot',
+		year: '1959',
+		genre: 'Action',
+		poster: 'http://i.imgur.com/oAx43iB.jpg'
+	},
+	{
+		name: "Singin in the Rain",
+		year: '1952',
+		genre: 'Romance',
+		poster: 'http://i.imgur.com/po7HRZS.jpg'
+	},
+	{
+		name: 'Ben-Hur',
+		year: '1959',
+		genre: 'Action',
+		poster: 'http://i.imgur.com/Qei8kaN.jpg'
+	},
+	{
+		name: 'Psycho',
+		year: '1960',
+		genre: 'Thriller',
+		poster: 'http://i.imgur.com/1mzFD2r.jpg'
 	},
 ];
-const getId = str => parseInt(str, 10) - 1;
+
+const getId = str => (parseInt(str, 10) - 1) % 10;
 const unauthorized = res => {
 	res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
 	return res.sendStatus(401);
@@ -20,25 +75,40 @@ const unauthorized = res => {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// curl http://localhost:3030/movies/1
+// Return list of top movies
+// Demo:
+// curl -i http://localhost:3030/top
+app.get('/top_movies', (req, res) => {
+	res.send(movies);
+});
+
+// Return a movie
+// Demo:
+// curl -i http://localhost:3030/movies/1
 app.get('/movies/:id', (req, res) => {
 	res.send(movies[getId(req.params.id)]);
 });
 
-// Browser to http://localhost:3030/update_form
-app.post('/movies/:id', upload.single('poster'), (req, res) => {
+// Update a movie
+// Demo:
+// curl -i -X PUT -F "genre=Thriller" -F "poster=@/Users/jayair/Downloads/out.gif" http://localhost:3030/movies/1
+app.put('/movies/:id', upload.single('poster'), (req, res) => {
 	res.send(Object.assign({},
 		movies[getId(req.params.id)],
 		req.file && { poster: req.file.originalname },
 		req.body));
 });
 
-// curl -X DELETE -u admin:password http://localhost:3030/movies/1
+// Delete a movie
+// Demo:
+// curl -i -X DELETE -u admin:password http://localhost:3030/movies/1
 app.delete('/movies/:id', auth, (req, res) => {
 	res.send({ deleted: movies[getId(req.params.id)].name });
 });
 
-// curl -X POST -H "TB-User-UUID: hunyjhgi" -H "TB-Tool-UUID: tferqvrd" -d location=%7B%22latitude%22%3A43.64%2C%22longitude%22%3A-79.37%7D http://localhost:3030/movies/1/subscribe
+// Subscribe for a movie that will be playing
+// Demo:
+// curl -i -X POST -H "TB-User-UUID: adqlymds" -H "TB-Tool-UUID: bcgrjtcu" -d location=%7B%22latitude%22%3A43.64%2C%22longitude%22%3A-79.37%7D http://localhost:3030/movies/1/subscribe
 app.post('/movies/:id/subscribe', (req, res) => {
 	const movie = movies[getId(req.params.id)];
 
@@ -53,24 +123,15 @@ app.post('/movies/:id/subscribe', (req, res) => {
 	res.send({ subscribed: true, movie: movie.name, location: JSON.parse(req.body.location) });
 });
 
-// curl http://localhost:3030/top_movies
-app.get('/top_movies', (req, res) => {
+// Search for a movie
+// Demo:
+// curl -i http://localhost:3030/movies?keyword=test
+app.get('/movies', (req, res) => {
 	res.send(movies.map((movie, i) => Object.assign({}, movie, {
-		'update': `https://toolbeam.com/t/update-movie?id=${i + 1}`,
-		'delete': `https://toolbeam.com/t/delete-movie?id=${i + 1}`,
-		'subscribe': `https://toolbeam.com/t/subscribe-movie?id=${i + 1}`
+		'edit': `https://toolbeam.com/t/kldgocfm?id=${i + 1}&genre=${movie.genre}`,
+		'delete': `https://toolbeam.com/t/moqulqnk/response?id=${i + 1}`,
+		'subscribe': `https://toolbeam.com/t/bcgrjtcu?id=${i + 1}`
 	})));
-});
-
-// Form to test updating a movie object
-app.get('/update_form', (req, res) => {
-	res.send(
-		`<form action="/movies/1" enctype="multipart/form-data" method="post">
-			<input type="text" name="name" />
-			<input type="file" name="poster" multiple="multiple" />
-			<input type="submit" value="Upload" />
-		</form>`
-	);
 });
 
 app.listen(3030);
