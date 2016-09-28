@@ -112,13 +112,18 @@ app.delete('/movies/:id', auth, (req, res) => {
 app.post('/movies/:id/subscribe', (req, res) => {
 	const movie = movies[getId(req.params.id)];
 
-	setTimeout(() => request
-		.post('https://api.toolbeam.com/v1/app/send_notifications')
-		.form({
-			message: `${movie.name} is now playing nearby!`,
-			user_uuid: req.get('TB-User-UUID'),
-			tool_uuid: req.get('TB-Tool-UUID')
-		}), 10000);
+	setTimeout(() => request({
+			method: 'POST',
+			uri: 'https://api.toolbeam.com/v1/app/send_notifications',
+			headers: {
+				'TB-API-KEY': 'Put in your API key here'
+			},
+			form: {
+				message: `${movie.name} is now playing nearby!`,
+				user_uuid: req.get('TB-User-UUID'),
+				tool_uuid: req.get('TB-Tool-UUID')
+			}
+		}), 3000);
 
 	res.send({ subscribed: true, movie: movie.name, location: JSON.parse(req.body.location) });
 });
