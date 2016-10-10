@@ -77,7 +77,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Return list of top movies
 // Demo:
-// curl -i http://localhost:3030/top
+// curl -i http://localhost:3030/top_movies
 app.get('/top_movies', (req, res) => {
 	res.send(movies);
 });
