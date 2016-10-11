@@ -10,62 +10,62 @@ const movies = [
 		name: 'Casablanca',
 		year: '1942',
 		genre: 'Romance',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/1.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/1.jpg'
 
 	},
 	{
 		name: 'Gone with the Wind',
 		year: '1939',
 		genre: 'Romance',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/2.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/2.jpg'
 	},
 	{
 		name: 'Citizen Kane',
 		year: '1941',
 		genre: 'Mystery',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/3.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/3.jpg'
 	},
 	{
 		name: 'The Wizard of Oz',
 		year: '1939',
 		genre: 'Fantasy',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/4.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/4.jpg'
 	},
 	{
 		name: 'North by Northwest',
 		year: '1959',
 		genre: 'Thriller',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/5.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/5.jpg'
 	},
 	{
 		name: "It's a Wonderful Life",
 		year: '1946',
 		genre: 'Fantasy',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/6.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/6.jpg'
 	},
 	{
 		name: 'Some Like It Hot',
 		year: '1959',
 		genre: 'Action',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/7.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/7.jpg'
 	},
 	{
 		name: "Singin in the Rain",
 		year: '1952',
 		genre: 'Romance',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/8.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/8.jpg'
 	},
 	{
 		name: 'Ben-Hur',
 		year: '1959',
 		genre: 'Action',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/9.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/9.jpg'
 	},
 	{
 		name: 'Psycho',
 		year: '1960',
 		genre: 'Thriller',
-		poster: 'https://github.com/AnomalyInnovations/toolbeam-cli/raw/master/docs/examples/10.jpg'
+		poster: 'https://github.com/AnomalyInnovations/toolbeam-example-api/raw/master/images/10.jpg'
 	},
 ];
 
@@ -112,7 +112,6 @@ app.delete('/movies/:id', auth, (req, res) => {
 // Demo:
 // curl -i -X POST -H "TB-User-UUID: adqlymds" -H "TB-Tool-UUID: bcgrjtcu" -d location=%7B%22latitude%22%3A43.64%2C%22longitude%22%3A-79.37%7D http://localhost:3030/movies/1/subscribe
 app.post('/movies/:id/subscribe', (req, res) => {
-	console.log(req.rawBody);
 	const movie = movies[getId(req.params.id)];
 
 	setTimeout(() => request({
