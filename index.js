@@ -97,7 +97,7 @@ app.get('/movies/:id', (req, res) => {
 app.put('/movies/:id', upload.single('poster'), (req, res) => {
 	res.send(Object.assign({},
 		movies[getId(req.params.id)],
-		req.file && { poster: req.file.originalname },
+		req.file && { poster: `${req.file.originalname} (${req.file.mimetype})` },
 		req.body));
 });
 
