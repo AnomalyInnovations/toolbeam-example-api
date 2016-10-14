@@ -125,7 +125,7 @@ app.post('/movies/:id/subscribe', (req, res) => {
 				user_uuid: req.get('TB-User-UUID'),
 				tool_uuid: req.get('TB-Tool-UUID')
 			}
-		}), 3000);
+		}), 5000);
 
 	res.send({ subscribed: true, movie: movie.name, location: JSON.parse(req.body.location) });
 });
